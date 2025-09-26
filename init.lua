@@ -73,7 +73,7 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 10
+vim.o.scrolloff = 15
 
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
@@ -818,6 +818,18 @@ require('lazy').setup({
       signature = { enabled = true },
     },
   },
+  {
+    {
+      'craftzdog/solarized-osaka.nvim',
+      lazy = true,
+      priority = 1000,
+      opts = function()
+        return {
+          transparent = true,
+        }
+      end,
+    },
+  },
 
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
@@ -840,60 +852,14 @@ require('lazy').setup({
         },
       }
 
-      vim.cmd.colorscheme 'catppuccin'
+      vim.cmd.colorscheme 'solarized-osaka'
     end,
-  },
-  {
-    'ellisonleao/gruvbox.nvim',
-    priority = 1000,
-    opts = ...,
-    config = function()
-      -- Default options:
-      require('gruvbox').setup {
-        palette_overrides = {
-          bright_green = '#990000',
-        },
-        -- terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          emphasis = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = '', -- can be "hard", "soft" or empty string
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
-      }
-    end,
-    -- vim.cmd 'colorscheme gruvbox',
   },
   {
     'folke/tokyonight.nvim',
     lazy = false,
     priority = 1000,
     opts = {},
-  },
-  {
-    'sainnhe/sonokai',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.g.sonokai_style = 'maia'
-      -- Optionally configure and load the colorscheme
-      -- directly inside the plugin declaration.
-      vim.g.sonokai_enable_italic = true
-      -- vim.cmd.colorscheme 'sonokai'
-    end,
   },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
