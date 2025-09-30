@@ -120,6 +120,8 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-page up and center cursor
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- custom binds
+vim.keymap.set('n', '<C-a>', 'gg<S-v>G', { desc = 'Select all' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -199,6 +201,13 @@ require('lazy').setup({
     },
   },
 
+  {
+    'kdheepak/lazygit.nvim',
+    cmd = 'LazyGit',
+    keys = {
+      { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'Open Lazygit' },
+    },
+  },
   -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
   --
   -- This is often very useful to both group configuration, as well as handle
@@ -946,7 +955,7 @@ require('lazy').setup({
   require 'kickstart.plugins.vimbegood',
   require 'kickstart.plugins.harpoon',
   require 'kickstart.plugins.rspec',
-
+  require 'kickstart.plugins.copilotchat',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --

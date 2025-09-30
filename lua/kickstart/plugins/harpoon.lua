@@ -11,7 +11,7 @@ return {
     harpoon:setup()
     require('telescope').load_extension 'harpoon'
 
-    vim.keymap.set('n', '<leader>z', function()
+    vim.keymap.set('n', '<leader>zz', function()
       require('telescope').extensions.harpoon.marks(harpoon:list())
     end, { desc = 'Find harpoon marks with Telescope' })
     vim.keymap.set('n', '<leader>1', function()
