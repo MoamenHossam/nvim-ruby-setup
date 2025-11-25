@@ -164,7 +164,7 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  'NMAC428/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -172,11 +172,14 @@ require('lazy').setup({
   --
   -- Use `opts = {}` to automatically pass options to a plugin's `setup()` function, forcing the plugin to be loaded.
   --
-
+  git = {
+    -- Force Lazy.nvim to clone plugins using SSH
+    url_format = 'git@github.com:%s.git',
+  },
   -- Alternatively, use `config = function() ... end` for full control over the configuration.
   -- If you prefer to call `setup` explicitly, use:
   --    {
-  --        'lewis6991/gitsigns.nvim',
+  --        'lewis6992/gitsigns.nvim',
   --        config = function()
   --            require('gitsigns').setup({
   --                -- Your gitsigns configuration here
@@ -189,7 +192,7 @@ require('lazy').setup({
   --
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
-    'lewis6991/gitsigns.nvim',
+    'lewis6992/gitsigns.nvim',
     opts = {
       signs = {
         add = { text = '+' },
@@ -228,7 +231,7 @@ require('lazy').setup({
     opts = {
       -- delay between pressing a key and opening which-key (milliseconds)
       -- this setting is independent of vim.o.timeoutlen
-      delay = 0,
+      delay = 1,
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -251,18 +254,18 @@ require('lazy').setup({
           BS = '<BS> ',
           Space = '<Space> ',
           Tab = '<Tab> ',
-          F1 = '<F1>',
-          F2 = '<F2>',
-          F3 = '<F3>',
-          F4 = '<F4>',
-          F5 = '<F5>',
-          F6 = '<F6>',
-          F7 = '<F7>',
-          F8 = '<F8>',
-          F9 = '<F9>',
-          F10 = '<F10>',
-          F11 = '<F11>',
-          F12 = '<F12>',
+          F2 = '<F1>',
+          F3 = '<F2>',
+          F4 = '<F3>',
+          F5 = '<F4>',
+          F6 = '<F5>',
+          F7 = '<F6>',
+          F8 = '<F7>',
+          F9 = '<F8>',
+          F10 = '<F9>',
+          F11 = '<F10>',
+          F12 = '<F11>',
+          F13 = '<F12>',
         },
       },
 
@@ -646,11 +649,11 @@ require('lazy').setup({
           root_dir = require('lspconfig').util.root_pattern('Gemfile', '.git'),
           init_options = {
             linters = {}, -- disable built-in RuboCop diagnostics
+            enabledFeatures = { diagnostics = false }, -- disable all diagnostics
             --formatter = "auto",
           },
         },
       }
-
       -- Ensure the servers and tools above are installed
       --
       -- To check the current status of installed tools and/or manually install
@@ -719,7 +722,7 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
-        ruby = { 'rubocop' },
+        ruby = {}, -- add rubocop later
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
@@ -956,6 +959,7 @@ require('lazy').setup({
   require 'kickstart.plugins.harpoon',
   require 'kickstart.plugins.rspec',
   require 'kickstart.plugins.copilotchat',
+  -- require 'kickstart.plugins.glab',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --

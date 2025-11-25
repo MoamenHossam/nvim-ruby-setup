@@ -7,7 +7,7 @@ return {
       local lint = require 'lint'
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
-        ruby = { 'rubocop' },
+        ruby = { 'rubocop' }, --add rubocop to the list if you want to use it
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
