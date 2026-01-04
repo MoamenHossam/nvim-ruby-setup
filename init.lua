@@ -958,6 +958,7 @@ require('lazy').setup({
   require 'kickstart.plugins.harpoon',
   require 'kickstart.plugins.rspec',
   require 'kickstart.plugins.copilotchat',
+  require 'kickstart.plugins.session',
   -- require 'kickstart.plugins.glab',
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
