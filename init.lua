@@ -54,7 +54,24 @@ vim.o.timeoutlen = 300
 -- Configure how new splits should be opened
 vim.o.splitright = true
 vim.o.splitbelow = true
+-- Use Treesitter for folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
+-- Start with all folds open (optional)
+-- 99 ensures folds are open by default when you enter a file
+vim.opt.foldlevel = 99 -- Start with all folds open
+vim.opt.foldlevelstart = 99 -- Ensure new buffers also start open
+-- Fix: Treesitter folding not loading on startup
+vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
+  pattern = '*',
+  callback = function()
+    vim.schedule(function()
+      vim.opt.foldmethod = 'expr'
+      vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+    end)
+  end,
+})
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
