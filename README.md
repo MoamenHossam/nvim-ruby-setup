@@ -1,241 +1,506 @@
-# kickstart.nvim
+# Neovim Configuration
 
-## Introduction
+A modern Neovim configuration built on the Kickstart.nvim framework with extensive plugin support for development, particularly focused on Ruby/Rails development.
 
-A starting point for Neovim that is:
+## Table of Contents
 
-* Small
-* Single-file
-* Completely Documented
+- [Leader Key](#leader-key)
+- [Core Settings](#core-settings)
+- [General Keybindings](#general-keybindings)
+- [Installed Plugins](#installed-plugins)
+  - [File Navigation & Search](#file-navigation--search)
+  - [LSP & Completion](#lsp--completion)
+  - [Git Integration](#git-integration)
+  - [Code Quality & Formatting](#code-quality--formatting)
+  - [AI Assistance](#ai-assistance)
+  - [UI & Appearance](#ui--appearance)
+  - [Testing](#testing)
+  - [Debugging](#debugging)
+  - [Utilities](#utilities)
+- [Plugin Details](#plugin-details)
 
-**NOT** a Neovim distribution, but instead a starting point for your configuration.
+## Leader Key
 
-## Installation
-
-### Install Neovim
-
-Kickstart.nvim targets *only* the latest
-['stable'](https://github.com/neovim/neovim/releases/tag/stable) and latest
-['nightly'](https://github.com/neovim/neovim/releases/tag/nightly) of Neovim.
-If you are experiencing issues, please make sure you have the latest versions.
-
-### Install External Dependencies
-
-External Requirements:
-- Basic utils: `git`, `make`, `unzip`, C Compiler (`gcc`)
-- [ripgrep](https://github.com/BurntSushi/ripgrep#installation),
-  [fd-find](https://github.com/sharkdp/fd#installation)
-- Clipboard tool (xclip/xsel/win32yank or other depending on the platform)
-- A [Nerd Font](https://www.nerdfonts.com/): optional, provides various icons
-  - if you have it set `vim.g.have_nerd_font` in `init.lua` to true
-- Emoji fonts (Ubuntu only, and only if you want emoji!) `sudo apt install fonts-noto-color-emoji`
-- Language Setup:
-  - If you want to write Typescript, you need `npm`
-  - If you want to write Golang, you will need `go`
-  - etc.
-
-> [!NOTE]
-> See [Install Recipes](#Install-Recipes) for additional Windows and Linux specific notes
-> and quick install snippets
-
-### Install Kickstart
-
-> [!NOTE]
-> [Backup](#FAQ) your previous configuration (if any exists)
-
-Neovim's configurations are located under the following paths, depending on your OS:
-
-| OS | PATH |
-| :- | :--- |
-| Linux, MacOS | `$XDG_CONFIG_HOME/nvim`, `~/.config/nvim` |
-| Windows (cmd)| `%localappdata%\nvim\` |
-| Windows (powershell)| `$env:LOCALAPPDATA\nvim\` |
-
-#### Recommended Step
-
-[Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) this repo
-so that you have your own copy that you can modify, then install by cloning the
-fork to your machine using one of the commands below, depending on your OS.
-
-> [!NOTE]
-> Your fork's URL will be something like this:
-> `https://github.com/<your_github_username>/kickstart.nvim.git`
-
-You likely want to remove `lazy-lock.json` from your fork's `.gitignore` file
-too - it's ignored in the kickstart repo to make maintenance easier, but it's
-[recommended to track it in version control](https://lazy.folke.io/usage/lockfile).
-
-#### Clone kickstart.nvim
-
-> [!NOTE]
-> If following the recommended step above (i.e., forking the repo), replace
-> `nvim-lua` with `<your_github_username>` in the commands below
-
-<details><summary> Linux and Mac </summary>
-
-```sh
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-```
-
-</details>
-
-<details><summary> Windows </summary>
-
-If you're using `cmd.exe`:
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "%localappdata%\nvim"
-```
-
-If you're using `powershell.exe`
-
-```
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${env:LOCALAPPDATA}\nvim"
-```
-
-</details>
-
-### Post Installation
-
-Start Neovim
-
-```sh
-nvim
-```
-
-That's it! Lazy will install all the plugins you have. Use `:Lazy` to view
-the current plugin status. Hit `q` to close the window.
-
-#### Read The Friendly Documentation
-
-Read through the `init.lua` file in your configuration folder for more
-information about extending and exploring Neovim. That also includes
-examples of adding popularly requested plugins.
-
-> [!NOTE]
-> For more information about a particular plugin check its repository's documentation.
-
-
-### Getting Started
-
-[The Only Video You Need to Get Started with Neovim](https://youtu.be/m8C0Cq9Uv9o)
-
-### FAQ
-
-* What should I do if I already have a pre-existing Neovim configuration?
-  * You should back it up and then delete all associated files.
-  * This includes your existing init.lua and the Neovim files in `~/.local`
-    which can be deleted with `rm -rf ~/.local/share/nvim/`
-* Can I keep my existing configuration in parallel to kickstart?
-  * Yes! You can use [NVIM_APPNAME](https://neovim.io/doc/user/starting.html#%24NVIM_APPNAME)`=nvim-NAME`
-    to maintain multiple configurations. For example, you can install the kickstart
-    configuration in `~/.config/nvim-kickstart` and create an alias:
-    ```
-    alias nvim-kickstart='NVIM_APPNAME="nvim-kickstart" nvim'
-    ```
-    When you run Neovim using `nvim-kickstart` alias it will use the alternative
-    config directory and the matching local directory
-    `~/.local/share/nvim-kickstart`. You can apply this approach to any Neovim
-    distribution that you would like to try out.
-* What if I want to "uninstall" this configuration:
-  * See [lazy.nvim uninstall](https://lazy.folke.io/usage#-uninstalling) information
-* Why is the kickstart `init.lua` a single file? Wouldn't it make sense to split it into multiple files?
-  * The main purpose of kickstart is to serve as a teaching tool and a reference
-    configuration that someone can easily use to `git clone` as a basis for their own.
-    As you progress in learning Neovim and Lua, you might consider splitting `init.lua`
-    into smaller parts. A fork of kickstart that does this while maintaining the
-    same functionality is available here:
-    * [kickstart-modular.nvim](https://github.com/dam9000/kickstart-modular.nvim)
-  * Discussions on this topic can be found here:
-    * [Restructure the configuration](https://github.com/nvim-lua/kickstart.nvim/issues/218)
-    * [Reorganize init.lua into a multi-file setup](https://github.com/nvim-lua/kickstart.nvim/pull/473)
-
-### Install Recipes
-
-Below you can find OS specific install instructions for Neovim and dependencies.
-
-After installing all the dependencies continue with the [Install Kickstart](#Install-Kickstart) step.
-
-#### Windows Installation
-
-<details><summary>Windows with Microsoft C++ Build Tools and CMake</summary>
-Installation may require installing build tools and updating the run command for `telescope-fzf-native`
-
-See `telescope-fzf-native` documentation for [more details](https://github.com/nvim-telescope/telescope-fzf-native.nvim#installation)
-
-This requires:
-
-- Install CMake and the Microsoft C++ Build Tools on Windows
+**Leader key is set to `Space`**
 
 ```lua
-{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
-```
-</details>
-<details><summary>Windows with gcc/make using chocolatey</summary>
-Alternatively, one can install gcc and make which don't require changing the config,
-the easiest way is to use choco:
-
-1. install [chocolatey](https://chocolatey.org/install)
-either follow the instructions on the page or use winget,
-run in cmd as **admin**:
-```
-winget install --accept-source-agreements chocolatey.chocolatey
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 ```
 
-2. install all requirements using choco, exit the previous cmd and
-open a new one so that choco path is set, and run in cmd as **admin**:
-```
-choco install -y neovim git ripgrep wget fd unzip gzip mingw make
-```
-</details>
-<details><summary>WSL (Windows Subsystem for Linux)</summary>
+## Core Settings
 
-```
-wsl --install
-wsl
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
+- Line numbers (relative and absolute)
+- Mouse support enabled
+- Clipboard sync with OS
+- Smart case-insensitive search
+- Auto-save undo history
+- Split windows open right/below
+- Treesitter-based folding (all folds open by default)
+- Scroll offset of 15 lines
+- Cursor line highlighting
 
-#### Linux Install
-<details><summary>Ubuntu Install Steps</summary>
+## General Keybindings
 
-```
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip neovim
-```
-</details>
-<details><summary>Debian Install Steps</summary>
+### Basic Navigation
 
-```
-sudo apt update
-sudo apt install make gcc ripgrep unzip git xclip curl
+| Key | Mode | Action |
+|-----|------|--------|
+| `<Esc>` | Normal | Clear search highlighting |
+| `<C-h>` | Normal | Move focus to left window |
+| `<C-l>` | Normal | Move focus to right window |
+| `<C-j>` | Normal | Move focus to lower window |
+| `<C-k>` | Normal | Move focus to upper window |
+| `<C-d>` | Normal | Half-page down and center cursor |
+| `<C-u>` | Normal | Half-page up and center cursor |
+| `<C-a>` | Normal | Select all text in buffer |
 
-# Now we install nvim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-sudo rm -rf /opt/nvim-linux-x86_64
-sudo mkdir -p /opt/nvim-linux-x86_64
-sudo chmod a+rX /opt/nvim-linux-x86_64
-sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+### Terminal Mode
 
-# make it available in /usr/local/bin, distro installs to /usr/bin
-sudo ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/
-```
-</details>
-<details><summary>Fedora Install Steps</summary>
+| Key | Mode | Action |
+|-----|------|--------|
+| `<Esc><Esc>` | Terminal | Exit terminal mode |
 
-```
-sudo dnf install -y gcc make git ripgrep fd-find unzip neovim
-```
-</details>
+### Diagnostics
 
-<details><summary>Arch Install Steps</summary>
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>q` | Normal | Open diagnostic quickfix list |
 
-```
-sudo pacman -S --noconfirm --needed gcc make git ripgrep fd unzip neovim
-```
-</details>
+### Custom Features
 
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>c` | Normal | Toggle OpenCode in tmux pane |
+
+## Installed Plugins
+
+### File Navigation & Search
+
+#### Telescope (nvim-telescope/telescope.nvim)
+Fuzzy finder for files, buffers, and more.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>sh` | Normal | Search help tags |
+| `<leader>sk` | Normal | Search keymaps |
+| `<leader>sf` | Normal | Search files |
+| `<leader>ss` | Normal | Search select Telescope pickers |
+| `<leader>sw` | Normal | Search current word |
+| `<leader>sg` | Normal | Search by grep (live) |
+| `<leader>sd` | Normal | Search diagnostics |
+| `<leader>sr` | Normal | Resume last search |
+| `<leader>s.` | Normal | Search recent files |
+| `<leader><leader>` | Normal | Find existing buffers |
+| `<leader>/` | Normal | Fuzzy search in current buffer |
+| `<leader>s/` | Normal | Live grep in open files |
+| `<leader>sn` | Normal | Search Neovim config files |
+| `<c-enter>` | Insert (Telescope) | Refine search with fuzzy finding |
+
+**Extensions:**
+- telescope-fzf-native.nvim (fast fuzzy finder)
+- telescope-ui-select.nvim (use Telescope for vim.ui.select)
+
+**Configuration:**
+- Ignores: `node_modules`, `tmp`, `log`, `vendor`
+- Shows hidden files in find_files picker
+
+#### Neo-tree (nvim-neo-tree/neo-tree.nvim)
+File explorer sidebar.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `\` | Normal | Open/reveal file in Neo-tree |
+| `<leader>\` | Normal (in Neo-tree) | Close Neo-tree window |
+
+**Features:**
+- Follows current file automatically
+- Shows gitignored files
+- Doesn't auto-open on startup
+
+#### Harpoon (ThePrimeagen/harpoon)
+Quick file navigation with marks.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>a` | Normal | Add current file to Harpoon |
+| `<leader>zz` | Normal | View Harpoon marks with Telescope |
+| `<leader>1` | Normal | Jump to Harpoon file 1 |
+| `<leader>2` | Normal | Jump to Harpoon file 2 |
+| `<leader>3` | Normal | Jump to Harpoon file 3 |
+| `<leader>4` | Normal | Jump to Harpoon file 4 |
+| `<C-n>` | Normal | Next Harpoon file |
+| `<C-p>` | Normal | Previous Harpoon file |
+
+### LSP & Completion
+
+#### LSP Config (neovim/nvim-lspconfig)
+Language Server Protocol support with Mason.
+
+**LSP Keybindings (available when LSP is attached):**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `grn` | Normal | Rename symbol |
+| `gra` | Normal, Visual | Code action |
+| `grr` | Normal | Go to references |
+| `gri` | Normal | Go to implementation |
+| `grd` | Normal | Go to definition |
+| `grD` | Normal | Go to declaration |
+| `grt` | Normal | Go to type definition |
+| `gO` | Normal | Open document symbols |
+| `gW` | Normal | Open workspace symbols |
+| `K` | Normal | Show hover documentation |
+| `<leader>th` | Normal | Toggle inlay hints |
+
+**Configured Language Servers:**
+- `lua_ls` (Lua)
+- `ruby_lsp` (Ruby) - runs via `bundle exec`
+
+**Additional Tools:**
+- mason.nvim (LSP/DAP/linter installer)
+- mason-lspconfig.nvim (bridges Mason and lspconfig)
+- mason-tool-installer.nvim (auto-installs tools)
+- fidget.nvim (LSP progress notifications)
+
+**Features:**
+- Auto-highlights symbol under cursor
+- Diagnostic virtual text for errors/warnings
+- Rounded borders on diagnostic floats
+- Nerd font icons for diagnostic signs
+
+#### Blink.cmp (saghen/blink.cmp)
+Modern completion engine with snippet support.
+
+| Key | Preset | Action |
+|-----|--------|--------|
+| Default preset keybindings | Insert | Navigate and select completions |
+
+**Features:**
+- LSP, path, and snippet completion
+- LuaSnip integration for snippets
+- Lazydev integration for Neovim Lua API
+- Manual documentation popup (not automatic)
+- Signature help enabled
+
+#### Lazydev (folke/lazydev.nvim)
+Better Lua development for Neovim config.
+
+**Features:**
+- Neovim Lua API completion
+- vim.uv library support
+
+### Git Integration
+
+#### Gitsigns (lewis6991/gitsigns.nvim)
+Git status in sign column with hunk operations.
+
+**Navigation:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `]c` | Normal | Jump to next git change |
+| `[c` | Normal | Jump to previous git change |
+
+**Hunk Actions:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>hs` | Normal | Stage hunk |
+| `<leader>hs` | Visual | Stage selected lines |
+| `<leader>hr` | Normal | Reset hunk |
+| `<leader>hr` | Visual | Reset selected lines |
+| `<leader>hS` | Normal | Stage entire buffer |
+| `<leader>hu` | Normal | Undo stage hunk |
+| `<leader>hR` | Normal | Reset entire buffer |
+| `<leader>hp` | Normal | Preview hunk |
+| `<leader>hb` | Normal | Blame line |
+| `<leader>hd` | Normal | Diff against index |
+| `<leader>hD` | Normal | Diff against last commit |
+
+**Toggles:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>tb` | Normal | Toggle current line blame |
+| `<leader>tD` | Normal | Toggle show deleted lines |
+
+**Sign Characters:**
+- `+` : Added lines
+- `~` : Changed lines
+- `_` : Deleted lines
+- `‾` : Top delete
+- `~` : Change delete
+
+#### LazyGit (kdheepak/lazygit.nvim)
+Terminal UI for git commands.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>gg` | Normal | Open LazyGit |
+
+### Code Quality & Formatting
+
+#### Conform.nvim (stevearc/conform.nvim)
+Code formatting with multiple formatter support.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>f` | Normal, Visual | Format buffer or selection |
+
+**Configured Formatters:**
+- `stylua` for Lua files
+
+**Auto-format on save:**
+- Enabled for most filetypes
+- Disabled for: C, C++, Ruby
+- Falls back to LSP formatting if no formatter configured
+
+#### Nvim-lint (mfussenegger/nvim-lint)
+Asynchronous linting engine.
+
+**Configured Linters:**
+- `markdownlint` for Markdown files
+- `rubocop` for Ruby files
+
+**Auto-lint triggers:**
+- On buffer enter
+- After saving
+- On leaving insert mode
+
+### AI Assistance
+
+#### GitHub Copilot (github/copilot.vim)
+AI-powered code completion.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<C-l>` | Insert | Accept Copilot suggestion |
+
+**Enabled for:**
+- All filetypes (except TelescopePrompt)
+- Git commits
+- Markdown files
+
+#### CopilotChat (CopilotC-Nvim/CopilotChat.nvim)
+Chat interface for GitHub Copilot.
+
+**Normal Mode:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>zc` | Normal | Open Copilot chat |
+| `<leader>zm` | Normal | Generate commit message |
+
+**Visual Mode (on selected code):**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>ze` | Visual | Explain code |
+| `<leader>zr` | Visual | Review code |
+| `<leader>zf` | Visual | Fix code issues |
+| `<leader>zo` | Visual | Optimize code |
+| `<leader>zd` | Visual | Generate documentation |
+| `<leader>zt` | Visual | Generate tests |
+| `<leader>zs` | Visual | Generate commit for selection |
+| `<leader>zq` | Visual | Chat about selection |
+
+#### OpenCode (NickvanDyke/opencode.nvim)
+AI coding assistant integration.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>o` | Normal, Terminal | Toggle/focus OpenCode window |
+| `<leader>p` | Normal, Visual | Ask OpenCode with "@this:" prefix |
+| `<C-x>` | Normal, Visual | Execute OpenCode action menu |
+| `go` | Normal, Visual | Add range to OpenCode |
+| `goo` | Normal | Add current line to OpenCode |
+| `<S-C-u>` | Normal | OpenCode half page up |
+| `<S-C-d>` | Normal | OpenCode half page down |
+
+### UI & Appearance
+
+#### Which-key (folke/which-key.nvim)
+Displays available keybindings in popup.
+
+**Features:**
+- Shows keybindings after 1ms delay
+- Groups organized by prefix:
+  - `<leader>s` : Search
+  - `<leader>t` : Toggle
+  - `<leader>h` : Git Hunk operations
+
+#### Mini.nvim (echasnovski/mini.nvim)
+Collection of minimal Lua plugins.
+
+**Included modules:**
+- `mini.ai` : Extended text objects (searches 500 lines)
+- `mini.surround` : Add/delete/replace surroundings
+- `mini.statusline` : Minimal statusline
+
+#### Treesitter (nvim-treesitter/nvim-treesitter)
+Advanced syntax highlighting and code understanding.
+
+**Features:**
+- Auto-install parsers for opened files
+- Syntax highlighting enabled
+- Smart indentation (disabled for Ruby)
+- Additional regex highlighting for Ruby
+
+**Pre-installed parsers:**
+- bash, c, diff, html, lua, luadoc, markdown, markdown_inline, query, vim, vimdoc
+
+#### Indent-blankline (lukas-reineke/indent-blankline.nvim)
+Displays indent guides.
+
+**Features:**
+- Shows indentation levels visually
+- Uses default configuration
+
+#### Autopairs (windwp/nvim-autopairs)
+Automatically close brackets, quotes, etc.
+
+**Features:**
+- Auto-closes pairs in insert mode
+- Integrates with completion
+
+#### Color Schemes
+
+Three color schemes are available:
+
+1. **Catppuccin** (catppuccin/nvim)
+   - Flavour: Frappe
+   - Not transparent
+   - Integrations: gitsigns, nvimtree, treesitter, telescope
+
+2. **Tokyo Night** (folke/tokyonight.nvim)
+   - Default configuration
+
+3. **Solarized Osaka** (craftzdog/solarized-osaka.nvim) **(ACTIVE)**
+   - Transparent background enabled
+   - Currently set as the active colorscheme
+
+#### Todo Comments (folke/todo-comments.nvim)
+Highlight and search for TODO comments.
+
+**Features:**
+- Highlights TODO, HACK, FIX, NOTE, etc.
+- Signs disabled
+- Searchable with Telescope
+
+### Testing
+
+#### RSpec.nvim (h3pei/rspec.nvim)
+Run RSpec tests from Neovim.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>rn` | Normal | Run nearest spec |
+| `<leader>rf` | Normal | Run current file specs |
+| `<leader>ra` | Normal | Run all specs |
+| `<leader>rr` | Normal | Rerun last spec |
+| `<leader>rF` | Normal | Run spec file in side terminal |
+| `<leader>rN` | Normal | Run individual spec in side terminal |
+
+**Configuration:**
+- Runs via Docker Compose (service: `web`)
+- Command: `docker-compose exec -T web bundle exec rspec`
+- Float window: 30 lines high, 160 chars wide, rounded border
+
+### Debugging
+
+#### DAP (mfussenegger/nvim-dap)
+Debug Adapter Protocol support.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<F5>` | Normal | Start/Continue debugging |
+| `<F1>` | Normal | Step into |
+| `<F2>` | Normal | Step over |
+| `<F3>` | Normal | Step out |
+| `<F7>` | Normal | Toggle debug UI |
+| `<leader>b` | Normal | Toggle breakpoint |
+| `<leader>B` | Normal | Set conditional breakpoint |
+
+**Included adapters:**
+- nvim-dap-ui (Beautiful debug UI)
+- nvim-dap-go (Go debugging with Delve)
+- mason-nvim-dap (Auto-install debug adapters)
+
+**Configured debuggers:**
+- Delve (for Go)
+
+### Utilities
+
+#### Auto-session (rmagatti/auto-session)
+Automatic session management.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>wr` | Normal | Search/restore sessions |
+| `<leader>ws` | Normal | Save current session |
+| `<leader>wa` | Normal | Toggle session autosave |
+
+**Features:**
+- Git branch-based sessions
+- No auto-restore on branch change
+- Suppressed directories: `~/`, `~/Projects`, `~/Downloads`, `/`
+
+#### Vim-be-good (ThePrimeagen/vim-be-good)
+Vim practice game.
+
+**Usage:**
+```vim
+:VimBeGood
+```
+
+## Summary
+
+### Total Plugins: 27
+
+**Categories:**
+- **File Navigation & Search**: 3 plugins (Telescope, Neo-tree, Harpoon)
+- **LSP & Completion**: 3 plugins (lspconfig, blink.cmp, lazydev)
+- **Git Integration**: 2 plugins (Gitsigns, LazyGit)
+- **Code Quality & Formatting**: 2 plugins (Conform, nvim-lint)
+- **AI Assistance**: 3 plugins (Copilot, CopilotChat, OpenCode)
+- **UI & Appearance**: 7 plugins (which-key, mini.nvim, treesitter, indent-blankline, autopairs, 3 colorschemes, todo-comments)
+- **Testing**: 1 plugin (RSpec.nvim)
+- **Debugging**: 1 plugin (nvim-dap with UI and Go support)
+- **Utilities**: 2 plugins (Auto-session, Vim-be-good)
+
+### Language Support
+
+**Primary:**
+- Ruby/Rails (LSP, linting with Rubocop, formatting disabled, RSpec testing)
+- Lua (LSP, formatting with Stylua, enhanced API support)
+
+**Additional:**
+- Go (debugging support)
+- Markdown (linting)
+- HTML, Bash, C (Treesitter parsing)
+
+### Key Features
+
+- **AI-Powered Development**: Three AI assistants (Copilot, CopilotChat, OpenCode)
+- **Ruby/Rails Focus**: Docker-based RSpec testing, Ruby LSP, Rubocop linting
+- **Git Workflow**: Visual hunks, staging, LazyGit integration
+- **Fuzzy Finding**: Powerful Telescope with multiple pickers
+- **Modern Completion**: Blink.cmp with LSP and snippet support
+- **Session Management**: Auto-save and restore sessions per git branch
+- **Debug Support**: Full DAP integration with UI
+
+### Development Workflow
+
+This configuration is optimized for:
+1. Ruby/Rails development with Docker
+2. Git-based workflows with visual feedback
+3. AI-assisted coding
+4. Fast file navigation and search
+5. LSP-powered code intelligence
+6. Automated formatting and linting
+
+---
+
+*Based on Kickstart.nvim framework*
+*Plugin manager: lazy.nvim*
