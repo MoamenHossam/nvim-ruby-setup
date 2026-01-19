@@ -40,7 +40,7 @@ return {
       end
     end
 
-    vim.keymap.set({ 'n', 't' }, '<leader>o', focus_or_toggle_opencode, { desc = 'Toggle/focus opencode' })
+    vim.keymap.set({ 'n', 't' }, '<C-Space>', focus_or_toggle_opencode, { desc = 'Toggle/focus opencode' })
     vim.api.nvim_create_user_command('OpencodeToggle', focus_or_toggle_opencode, { desc = 'Toggle/focus opencode' })
 
     vim.keymap.set({ 'n', 'x' }, 'go', function()

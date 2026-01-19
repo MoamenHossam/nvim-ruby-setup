@@ -4,7 +4,6 @@ return {
   config = function()
     local lint = require 'lint'
     lint.linters_by_ft = {
-      markdown = { 'markdownlint' },
       ruby = { 'rubocop' },
     }
 
@@ -13,7 +12,7 @@ return {
       group = lint_augroup,
       callback = function()
         if vim.bo.modifiable then
-          lint.try_lint()
+          pcall(lint.try_lint)
         end
       end,
     })
