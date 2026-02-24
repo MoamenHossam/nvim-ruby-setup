@@ -8,7 +8,7 @@ return {
   },
   opts = {
     git_use_branch_name = true,
-    git_auto_restore_on_branch_change = false,
+    git_auto_restore_on_branch_change = true,
     suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
   },
 }
