@@ -19,7 +19,7 @@ return {
       if disable_filetypes[vim.bo[bufnr].filetype] then
         return nil
       else
-        return { timeout_ms = 50000, lsp_format = 'fallback' }
+        return { timeout_ms = 5000, lsp_format = 'fallback' }
       end
     end,
     formatters_by_ft = {

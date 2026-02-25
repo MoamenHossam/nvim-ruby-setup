@@ -47,16 +47,21 @@ vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
--- Window navigation
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+-- Window navigation (handled by vim-tmux-navigator plugin for seamless tmux/vim pane switching)
 vim.keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'Half-page down and center cursor' })
 vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-page up and center cursor' })
 
 -- Custom binds
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G', { desc = 'Select all' })
+vim.keymap.set({ 'n', 'i' }, '<C-s>', '<cmd>w<CR>', { desc = 'Save file' })
+
+-- Buffer navigation
+vim.keymap.set('n', '[b', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', ']b', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+
+-- Quickfix navigation
+vim.keymap.set('n', '[q', '<cmd>cprevious<CR>', { desc = 'Previous quickfix' })
+vim.keymap.set('n', ']q', '<cmd>cnext<CR>', { desc = 'Next quickfix' })
 
 -- Toggle OpenCode in tmux pane
 vim.keymap.set('n', '<leader>oc', function()

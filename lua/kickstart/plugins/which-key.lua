@@ -46,6 +46,8 @@ return {
       { '<leader>w', group = '[W]orkspace' },
       { '<leader>z', group = 'Copilot' },
       { '<leader>o', group = '[O]penCode' },
+      { '[', group = 'Previous' },
+      { ']', group = 'Next' },
     },
   },
 }

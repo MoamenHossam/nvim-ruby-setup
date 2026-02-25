@@ -20,7 +20,7 @@ return {
     keymap = { preset = 'default' },
     appearance = { nerd_font_variant = 'normal' },
     completion = {
-      documentation = { auto_show = false, auto_show_delay_ms = 500 },
+      documentation = { auto_show = true, auto_show_delay_ms = 500 },
     },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'lazydev' },

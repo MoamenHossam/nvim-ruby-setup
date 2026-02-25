@@ -47,13 +47,23 @@ vim.g.maplocalleader = ' '
 | Key | Mode | Action |
 |-----|------|--------|
 | `<Esc>` | Normal | Clear search highlighting |
-| `<C-h>` | Normal | Move focus to left window |
-| `<C-l>` | Normal | Move focus to right window |
-| `<C-j>` | Normal | Move focus to lower window |
-| `<C-k>` | Normal | Move focus to upper window |
+| `<C-h>` | Normal | Move to left window/tmux pane |
+| `<C-l>` | Normal | Move to right window/tmux pane |
+| `<C-j>` | Normal | Move to lower window/tmux pane |
+| `<C-k>` | Normal | Move to upper window/tmux pane |
 | `<C-d>` | Normal | Half-page down and center cursor |
 | `<C-u>` | Normal | Half-page up and center cursor |
 | `<C-a>` | Normal | Select all text in buffer |
+| `<C-s>` | Normal, Insert | Save file |
+
+### Buffer & Quickfix Navigation
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `[b` | Normal | Previous buffer |
+| `]b` | Normal | Next buffer |
+| `[q` | Normal | Previous quickfix |
+| `]q` | Normal | Next quickfix |
 
 ### Terminal Mode
 
@@ -110,13 +120,30 @@ File explorer sidebar.
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `\` | Normal | Open/reveal file in Neo-tree |
-| `<leader>\` | Normal (in Neo-tree) | Close Neo-tree window |
+| `\` | Normal | Toggle Neo-tree (open/close) |
 
 **Features:**
 - Follows current file automatically
 - Shows gitignored files
 - Doesn't auto-open on startup
+
+#### Flash (folke/flash.nvim)
+Quick motion and jump navigation.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `s` | Normal, Visual, Operator | Flash jump |
+| `S` | Normal, Visual, Operator | Flash Treesitter select |
+| `r` | Operator | Remote Flash |
+| `R` | Operator, Visual | Treesitter Search |
+
+#### Grug-far (MagicDuck/grug-far.nvim)
+Search and replace across files.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>sR` | Normal | Search and replace |
+| `<leader>sR` | Visual | Search and replace current word |
 
 #### Harpoon (ThePrimeagen/harpoon)
 Quick file navigation with marks.
@@ -180,7 +207,7 @@ Modern completion engine with snippet support.
 - LSP, path, and snippet completion
 - LuaSnip integration for snippets
 - Lazydev integration for Neovim Lua API
-- Manual documentation popup (not automatic)
+- Auto documentation popup (500ms delay)
 - Signature help enabled
 
 #### Lazydev (folke/lazydev.nvim)
@@ -255,6 +282,7 @@ Code formatting with multiple formatter support.
 - Enabled for most filetypes
 - Disabled for: C, C++, Ruby
 - Falls back to LSP formatting if no formatter configured
+- Timeout: 5000ms
 
 #### Nvim-lint (mfussenegger/nvim-lint)
 Asynchronous linting engine.
@@ -354,6 +382,8 @@ Displays available keybindings in popup.
   - `<leader>w` : Workspace
   - `<leader>z` : Copilot
   - `<leader>o` : OpenCode
+  - `[` : Previous (buffer, quickfix, git hunk, function, class)
+  - `]` : Next (buffer, quickfix, git hunk, function, class)
 
 #### Mini.nvim (echasnovski/mini.nvim)
 Collection of minimal Lua plugins.
@@ -361,10 +391,14 @@ Collection of minimal Lua plugins.
 **Included modules:**
 - `mini.ai` : Extended text objects (searches 500 lines)
 - `mini.surround` : Add/delete/replace surroundings
+- `mini.move` : Move lines and selections with Alt+h/j/k/l
 - `mini.statusline` : Minimal statusline
 
 #### Treesitter (nvim-treesitter/nvim-treesitter)
 Advanced syntax highlighting and code understanding.
+
+**Dependencies:**
+- nvim-treesitter-textobjects (structural text objects and movement)
 
 **Features:**
 - Auto-install parsers for opened files
@@ -373,7 +407,29 @@ Advanced syntax highlighting and code understanding.
 - Additional regex highlighting for Ruby
 
 **Pre-installed parsers:**
-- bash, c, diff, html, lua, luadoc, markdown, markdown_inline, query, vim, vimdoc
+- bash, c, css, diff, html, javascript, json, lua, luadoc, markdown, markdown_inline, query, ruby, typescript, vim, vimdoc, yaml
+
+**Textobject Selection:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `af` | Visual, Operator | Select around function |
+| `if` | Visual, Operator | Select inside function |
+| `ac` | Visual, Operator | Select around class |
+| `ic` | Visual, Operator | Select inside class |
+
+**Textobject Movement:**
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `]m` | Normal | Next function start |
+| `]M` | Normal | Next function end |
+| `]]` | Normal | Next class start |
+| `][` | Normal | Next class end |
+| `[m` | Normal | Previous function start |
+| `[M` | Normal | Previous function end |
+| `[[` | Normal | Previous class start |
+| `[]` | Normal | Previous class end |
 
 #### Indent-blankline (lukas-reineke/indent-blankline.nvim)
 Displays indent guides.
@@ -389,21 +445,10 @@ Automatically close brackets, quotes, etc.
 - Auto-closes pairs in insert mode
 - Integrates with completion
 
-#### Color Schemes
+#### Color Scheme
 
-Three color schemes are available:
-
-1. **Catppuccin** (catppuccin/nvim)
-   - Flavour: Frappe
-   - Not transparent
-   - Integrations: gitsigns, nvimtree, treesitter, telescope
-
-2. **Tokyo Night** (folke/tokyonight.nvim)
-   - Default configuration
-
-3. **Solarized Osaka** (craftzdog/solarized-osaka.nvim) **(ACTIVE)**
-   - Transparent background enabled
-   - Currently set as the active colorscheme
+**Rose Pine** (rose-pine/neovim) **(ACTIVE)**
+- Currently set as the active colorscheme
 
 #### Todo Comments (folke/todo-comments.nvim)
 Highlight and search for TODO comments.
@@ -457,6 +502,16 @@ Debug Adapter Protocol support.
 
 ### Utilities
 
+#### Vim-tmux-navigator (christoomey/vim-tmux-navigator)
+Seamless navigation between Neovim splits and tmux panes.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<C-h>` | Normal | Move to left window/tmux pane |
+| `<C-j>` | Normal | Move to lower window/tmux pane |
+| `<C-k>` | Normal | Move to upper window/tmux pane |
+| `<C-l>` | Normal | Move to right window/tmux pane |
+
 #### Auto-session (rmagatti/auto-session)
 Automatic session management.
 
@@ -481,18 +536,18 @@ Vim practice game.
 
 ## Summary
 
-### Total Plugins: 28
+### Total Plugins: 29
 
 **Categories:**
-- **File Navigation & Search**: 3 plugins (Telescope, Neo-tree, Harpoon)
+- **File Navigation & Search**: 5 plugins (Telescope, Neo-tree, Harpoon, Flash, Grug-far)
 - **LSP & Completion**: 3 plugins (lspconfig, blink.cmp, lazydev)
 - **Git Integration**: 2 plugins (Gitsigns, LazyGit)
 - **Code Quality & Formatting**: 2 plugins (Conform, nvim-lint)
 - **AI Assistance**: 4 plugins (Copilot, CopilotChat, Claude Code, OpenCode)
-- **UI & Appearance**: 7 plugins (which-key, mini.nvim, treesitter, indent-blankline, autopairs, 3 colorschemes, todo-comments)
+- **UI & Appearance**: 6 plugins (which-key, mini.nvim, treesitter + textobjects, indent-blankline, autopairs, rose-pine, todo-comments)
 - **Testing**: 1 plugin (RSpec.nvim)
 - **Debugging**: 1 plugin (nvim-dap with UI and Go support)
-- **Utilities**: 2 plugins (Auto-session, Vim-be-good)
+- **Utilities**: 3 plugins (vim-tmux-navigator, Auto-session, Vim-be-good)
 
 ### Language Support
 
@@ -502,15 +557,17 @@ Vim practice game.
 
 **Additional:**
 - Go (debugging support)
-- HTML, Bash, C (Treesitter parsing)
+- JavaScript, TypeScript, HTML, CSS, JSON, YAML, Bash, C (Treesitter parsing)
 
 ### Key Features
 
 - **AI-Powered Development**: Four AI assistants (Copilot, CopilotChat, Claude Code, OpenCode)
 - **Ruby/Rails Focus**: Docker-based RSpec testing, Ruby LSP, Rubocop linting
 - **Git Workflow**: Visual hunks, staging, LazyGit integration
-- **Fuzzy Finding**: Powerful Telescope with multiple pickers
-- **Modern Completion**: Blink.cmp with LSP and snippet support
+- **Quick Navigation**: Flash.nvim for rapid jumping, Harpoon for file marks
+- **Search & Replace**: Telescope fuzzy finding, Grug-far for project-wide replace
+- **Modern Completion**: Blink.cmp with LSP, snippets, and auto documentation
+- **Tmux Integration**: Seamless pane navigation between Neovim and tmux
 - **Session Management**: Auto-save and restore sessions per git branch
 - **Debug Support**: Full DAP integration with UI
 

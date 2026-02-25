@@ -12,6 +12,11 @@ return {
   },
   opts = {
     open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
+    window = {
+      mappings = {
+        ['\\'] = 'close_window',
+      },
+    },
     filesystem = {
       follow_current_file = {
         enabled = true,
@@ -21,12 +26,7 @@ return {
         -- hide_dotfiles = false,
         hide_gitignored = false, -- now gitignored files will be visible
       },
-      hijack_netrw_behavior = 'disabled', -- don’t auto-open on startup
-      window = {
-        mappings = {
-          ['<leader>\\'] = 'close_window',
-        },
-      },
+      hijack_netrw_behavior = 'disabled', -- don't auto-open on startup
     },
   },
 }
