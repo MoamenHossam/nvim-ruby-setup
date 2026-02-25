@@ -20,7 +20,24 @@ return {
         end
         local file = vim.fn.expand '%'
         local range = startline .. ',' .. endline .. ':' .. file
-        vim.cmd('terminal git log -L ' .. vim.fn.shellescape(range))
+        local cmd = 'git log --color=always -p -L ' .. vim.fn.shellescape(range)
+        local buf = vim.api.nvim_create_buf(false, true)
+        local width = math.floor(vim.o.columns * 0.8)
+        local height = math.floor(vim.o.lines * 0.8)
+        vim.api.nvim_open_win(buf, true, {
+          relative = 'editor',
+          width = width,
+          height = height,
+          col = math.floor((vim.o.columns - width) / 2),
+          row = math.floor((vim.o.lines - height) / 2),
+          style = 'minimal',
+          border = 'rounded',
+          title = ' Git Line Log ',
+          title_pos = 'center',
+        })
+        vim.fn.termopen(cmd)
+        vim.cmd 'startinsert'
+        vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = buf, silent = true })
       end,
       mode = 'v',
       desc = 'Git log for selection',
@@ -31,7 +48,24 @@ return {
         local line = vim.fn.line '.'
         local file = vim.fn.expand '%'
         local range = line .. ',' .. line .. ':' .. file
-        vim.cmd('terminal git log -L ' .. vim.fn.shellescape(range))
+        local cmd = 'git log --color=always -p -L ' .. vim.fn.shellescape(range)
+        local buf = vim.api.nvim_create_buf(false, true)
+        local width = math.floor(vim.o.columns * 0.8)
+        local height = math.floor(vim.o.lines * 0.8)
+        vim.api.nvim_open_win(buf, true, {
+          relative = 'editor',
+          width = width,
+          height = height,
+          col = math.floor((vim.o.columns - width) / 2),
+          row = math.floor((vim.o.lines - height) / 2),
+          style = 'minimal',
+          border = 'rounded',
+          title = ' Git Line Log ',
+          title_pos = 'center',
+        })
+        vim.fn.termopen(cmd)
+        vim.cmd 'startinsert'
+        vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = buf, silent = true })
       end,
       desc = 'Git log for current line',
     },
