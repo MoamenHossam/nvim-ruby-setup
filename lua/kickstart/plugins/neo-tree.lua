@@ -1,6 +1,6 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
-  version = '*',
+  branch = 'main',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-tree/nvim-web-devicons',
@@ -11,6 +11,7 @@ return {
     { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
+    open_files_do_not_replace_types = { 'terminal', 'trouble', 'qf' },
     filesystem = {
       follow_current_file = {
         enabled = true,

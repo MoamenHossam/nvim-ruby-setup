@@ -6,7 +6,6 @@ return {
     config = function()
       local lint = require 'lint'
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
         ruby = { 'rubocop' }, --add rubocop to the list if you want to use it
       }
 

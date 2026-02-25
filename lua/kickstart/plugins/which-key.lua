@@ -38,8 +38,14 @@ return {
     },
     spec = {
       { '<leader>s', group = '[S]earch' },
+      { '<leader>g', group = '[G]it', mode = { 'n', 'v' } },
+      { '<leader>d', group = '[D]ebug' },
+      { '<leader>r', group = '[R]Spec' },
       { '<leader>t', group = '[T]oggle' },
-      { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+      { '<leader>c', group = '[C]laude' },
+      { '<leader>w', group = '[W]orkspace' },
+      { '<leader>z', group = 'Copilot' },
+      { '<leader>o', group = '[O]penCode' },
     },
   },
 }

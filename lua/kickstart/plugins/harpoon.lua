@@ -11,7 +11,7 @@ return {
     harpoon:setup()
     require('telescope').load_extension 'harpoon'
 
-    vim.keymap.set('n', '<leader>zz', function()
+    vim.keymap.set('n', '<leader>M', function()
       require('telescope').extensions.harpoon.marks(harpoon:list())
     end, { desc = 'Find harpoon marks with Telescope' })
     vim.keymap.set('n', '<leader>1', function()
@@ -32,8 +32,8 @@ return {
     vim.keymap.set('n', '<C-p>', function()
       harpoon:list():prev()
     end, { desc = 'Harpoon previous file' })
-    vim.keymap.set('n', '<leader>a', function()
+    vim.keymap.set('n', '<leader>m', function()
       harpoon:list():add()
-    end, { desc = 'Harpoon add file' })
+    end, { desc = 'Harpoon [m]ark file' })
   end,
 }

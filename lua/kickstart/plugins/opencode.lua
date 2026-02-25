@@ -7,7 +7,7 @@ return {
     vim.g.opencode_opts = {}
     vim.opt.autoread = true
 
-    vim.keymap.set({ 'n', 'x' }, '<leader>p', function()
+    vim.keymap.set({ 'n', 'x' }, '<leader>oa', function()
       require('opencode').ask('@this: ', { submit = true })
     end, { desc = 'Ask opencode' })
 

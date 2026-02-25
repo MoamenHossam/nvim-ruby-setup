@@ -71,7 +71,7 @@ vim.g.maplocalleader = ' '
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>c` | Normal | Toggle OpenCode in tmux pane |
+| `<leader>oc` | Normal | Toggle OpenCode in tmux pane |
 
 ## Installed Plugins
 
@@ -123,8 +123,8 @@ Quick file navigation with marks.
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>a` | Normal | Add current file to Harpoon |
-| `<leader>zz` | Normal | View Harpoon marks with Telescope |
+| `<leader>m` | Normal | Mark current file in Harpoon |
+| `<leader>M` | Normal | View Harpoon marks with Telescope |
 | `<leader>1` | Normal | Jump to Harpoon file 1 |
 | `<leader>2` | Normal | Jump to Harpoon file 2 |
 | `<leader>3` | Normal | Jump to Harpoon file 3 |
@@ -206,24 +206,24 @@ Git status in sign column with hunk operations.
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>hs` | Normal | Stage hunk |
-| `<leader>hs` | Visual | Stage selected lines |
-| `<leader>hr` | Normal | Reset hunk |
-| `<leader>hr` | Visual | Reset selected lines |
-| `<leader>hS` | Normal | Stage entire buffer |
-| `<leader>hu` | Normal | Undo stage hunk |
-| `<leader>hR` | Normal | Reset entire buffer |
-| `<leader>hp` | Normal | Preview hunk |
-| `<leader>hb` | Normal | Blame line |
-| `<leader>hd` | Normal | Diff against index |
-| `<leader>hD` | Normal | Diff against last commit |
+| `<leader>gs` | Normal | Stage hunk |
+| `<leader>gs` | Visual | Stage selected lines |
+| `<leader>gr` | Normal | Reset hunk |
+| `<leader>gr` | Visual | Reset selected lines |
+| `<leader>gS` | Normal | Stage entire buffer |
+| `<leader>gu` | Normal | Undo stage hunk |
+| `<leader>gR` | Normal | Reset entire buffer |
+| `<leader>gp` | Normal | Preview hunk |
+| `<leader>gb` | Normal | Blame line |
+| `<leader>gd` | Normal | Diff against index |
+| `<leader>gD` | Normal | Diff against last commit |
 
 **Toggles:**
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>tb` | Normal | Toggle current line blame |
-| `<leader>tD` | Normal | Toggle show deleted lines |
+| `<leader>tg` | Normal | Toggle git blame line |
+| `<leader>tp` | Normal | Toggle inline preview |
 
 **Sign Characters:**
 - `+` : Added lines
@@ -260,7 +260,6 @@ Code formatting with multiple formatter support.
 Asynchronous linting engine.
 
 **Configured Linters:**
-- `markdownlint` for Markdown files
 - `rubocop` for Ruby files
 
 **Auto-lint triggers:**
@@ -305,13 +304,33 @@ Chat interface for GitHub Copilot.
 | `<leader>zs` | Visual | Generate commit for selection |
 | `<leader>zq` | Visual | Chat about selection |
 
+#### Claude Code (coder/claudecode.nvim)
+Claude Code CLI integration with WebSocket-based editor awareness.
+
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>cc` | Normal | Toggle Claude terminal |
+| `<leader>cf` | Normal | Focus/unfocus Claude pane |
+| `<leader>cr` | Normal | Resume previous session |
+| `<leader>cC` | Normal | Continue session |
+| `<leader>cs` | Visual | Send selection to Claude |
+| `<leader>cb` | Normal | Add current buffer to context |
+| `<leader>ca` | Normal | Accept diff |
+| `<leader>cd` | Normal | Deny diff |
+
+**Features:**
+- WebSocket server for Claude Code CLI communication
+- Inline diff review (accept/deny)
+- Visual selection sharing
+- Terminal split (right side, 40% width)
+
 #### OpenCode (NickvanDyke/opencode.nvim)
 AI coding assistant integration.
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>o` | Normal, Terminal | Toggle/focus OpenCode window |
-| `<leader>p` | Normal, Visual | Ask OpenCode with "@this:" prefix |
+| `<C-Space>` | Normal, Terminal | Toggle/focus OpenCode window |
+| `<leader>oa` | Normal, Visual | Ask OpenCode with "@this:" prefix |
 | `<C-x>` | Normal, Visual | Execute OpenCode action menu |
 | `go` | Normal, Visual | Add range to OpenCode |
 | `goo` | Normal | Add current line to OpenCode |
@@ -327,8 +346,14 @@ Displays available keybindings in popup.
 - Shows keybindings after 1ms delay
 - Groups organized by prefix:
   - `<leader>s` : Search
+  - `<leader>g` : Git
+  - `<leader>d` : Debug
+  - `<leader>r` : RSpec
   - `<leader>t` : Toggle
-  - `<leader>h` : Git Hunk operations
+  - `<leader>c` : Claude
+  - `<leader>w` : Workspace
+  - `<leader>z` : Copilot
+  - `<leader>o` : OpenCode
 
 #### Mini.nvim (echasnovski/mini.nvim)
 Collection of minimal Lua plugins.
@@ -419,8 +444,8 @@ Debug Adapter Protocol support.
 | `<F2>` | Normal | Step over |
 | `<F3>` | Normal | Step out |
 | `<F7>` | Normal | Toggle debug UI |
-| `<leader>b` | Normal | Toggle breakpoint |
-| `<leader>B` | Normal | Set conditional breakpoint |
+| `<leader>db` | Normal | Toggle breakpoint |
+| `<leader>dB` | Normal | Set conditional breakpoint |
 
 **Included adapters:**
 - nvim-dap-ui (Beautiful debug UI)
@@ -456,14 +481,14 @@ Vim practice game.
 
 ## Summary
 
-### Total Plugins: 27
+### Total Plugins: 28
 
 **Categories:**
 - **File Navigation & Search**: 3 plugins (Telescope, Neo-tree, Harpoon)
 - **LSP & Completion**: 3 plugins (lspconfig, blink.cmp, lazydev)
 - **Git Integration**: 2 plugins (Gitsigns, LazyGit)
 - **Code Quality & Formatting**: 2 plugins (Conform, nvim-lint)
-- **AI Assistance**: 3 plugins (Copilot, CopilotChat, OpenCode)
+- **AI Assistance**: 4 plugins (Copilot, CopilotChat, Claude Code, OpenCode)
 - **UI & Appearance**: 7 plugins (which-key, mini.nvim, treesitter, indent-blankline, autopairs, 3 colorschemes, todo-comments)
 - **Testing**: 1 plugin (RSpec.nvim)
 - **Debugging**: 1 plugin (nvim-dap with UI and Go support)
@@ -477,12 +502,11 @@ Vim practice game.
 
 **Additional:**
 - Go (debugging support)
-- Markdown (linting)
 - HTML, Bash, C (Treesitter parsing)
 
 ### Key Features
 
-- **AI-Powered Development**: Three AI assistants (Copilot, CopilotChat, OpenCode)
+- **AI-Powered Development**: Four AI assistants (Copilot, CopilotChat, Claude Code, OpenCode)
 - **Ruby/Rails Focus**: Docker-based RSpec testing, Ruby LSP, Rubocop linting
 - **Git Workflow**: Visual hunks, staging, LazyGit integration
 - **Fuzzy Finding**: Powerful Telescope with multiple pickers

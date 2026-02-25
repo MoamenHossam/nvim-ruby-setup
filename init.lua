@@ -59,7 +59,7 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'Half-page up and center cursor
 vim.keymap.set('n', '<C-a>', 'gg<S-v>G', { desc = 'Select all' })
 
 -- Toggle OpenCode in tmux pane
-vim.keymap.set('n', '<leader>c', function()
+vim.keymap.set('n', '<leader>oc', function()
   if vim.env.TMUX == nil then
     print 'Not in a tmux session'
     return
